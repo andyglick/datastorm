@@ -3,7 +3,7 @@ package org.datastorm.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SqlParser implements ISqlParser {
+class SqlParser implements ISqlParser {
 
 public String[] splitTextIntoSqlQueries(String text) {
 	String[] potentialQueries = text.split(";");

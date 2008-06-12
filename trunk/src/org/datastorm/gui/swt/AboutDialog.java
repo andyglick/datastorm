@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-public class AboutDialog {
+class AboutDialog {
 private static final String ABOUT_PIC_NAME = "dsintroscreen.gif";
 
 AboutDialog(final Display display, final Control onFocusItemOnClose) {

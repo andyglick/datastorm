@@ -1,4 +1,5 @@
 package org.datastorm;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -11,8 +12,18 @@ import org.datastorm.controller.command.SetEditorTextCommand;
 import org.datastorm.controller.command.ShowQueryCommand;
 import org.datastorm.gui.swt.View;
 
+/**
+ * This is the main class for starting up Data Storm.
+ * <P>
+ * Any normal usage should only entail using this class.
+ * 
+ * @author Kasper B. Graversen, (c) 2007-2008
+ */
 public class DataStorm {
 
+/**
+ * Show the Data Storm window and fire a sql query automatically.
+ */
 public void show(DataSource dataSource, String sql) {
 	try {
 		show(dataSource.getConnection(), sql);
@@ -22,10 +33,23 @@ public void show(DataSource dataSource, String sql) {
 	}
 }
 
+/**
+ * Show the Data Storm window
+ */
 public void show(Connection connection) {
 	show(connection, "");
 }
 
+/**
+ * Show the Data Storm window
+ */
+public void show(DataSource dataSource) {
+	show(dataSource, "");
+}
+
+/**
+ * Show the Data Storm window and fire a sql query automatically.
+ */
 public void show(Connection connection, String sql) {
 	try {
 		IController controller = new Controller(connection);
