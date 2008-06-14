@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 class AboutDialog {
-private static final String ABOUT_PIC_NAME = "dsintroscreen.gif";
+private static final String ABOUT_PIC_NAME = "/dsintroscreen.gif";
 
 AboutDialog(final Display display, final Control onFocusItemOnClose) {
 	final Shell aboutWin = new Shell(display, SWT.ON_TOP);
@@ -42,7 +42,7 @@ AboutDialog(final Display display, final Control onFocusItemOnClose) {
 		+ "\nData Storm is under the\n" //
 		+ "Apache 2.0 License" //
 		+ "\n\n" //
-		+ "All graphics are from the game Datastorm \n" //
+		+ "Picture from the great game Datastorm \n" //
 		+ "by Søren Grønbech (used with permission)\n\n" //
 		+ "game freely available at \n" //
 		+ "http://www.sodan.dk/oldbits/oldbits.html\n"//

@@ -55,7 +55,7 @@ public Display getDisplay() {
  * the ALT+TAB window on certain systems uses a larger icon.
  */
 private Shell makeAppIcons() {
-	Image large = Helper.readImage(display, "datastorm.gif");
+	Image large = Helper.readImage(display, "/datastorm.gif");
 	
 	Shell shell = new Shell(display);
 	shell.setText("Small and Large icons");
@@ -66,7 +66,7 @@ private Shell makeAppIcons() {
 private void makeExecuteButton(Composite shell) {
 	Button button = new Button(shell, SWT.PUSH);
 	// button.setText("Execute");
-	button.setImage(Helper.readImage(display, "refresh.png"));
+	button.setImage(Helper.readImage(display, "/refresh.png"));
 	
 	// make editor greedy on space
 	GridData data = new GridData();

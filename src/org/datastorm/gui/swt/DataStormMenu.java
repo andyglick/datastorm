@@ -81,7 +81,7 @@ private void makeMenuItemEditor(Shell shell, Menu bar) {
 		MenuItem runItem = new MenuItem(submenu, SWT.PUSH);
 		runItem.setText("Run query\tCtrl+ENTER");
 		runItem.setAccelerator(SWT.MOD1 + SWT.CR);
-		runItem.setImage(Helper.readImage(shell.getDisplay(), "refresh_22_22.png"));
+		runItem.setImage(Helper.readImage(shell.getDisplay(), "/refresh_22_22.png"));
 		runItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				controller.handleCommand(new ShowQueryCommand(editor.getText()));
