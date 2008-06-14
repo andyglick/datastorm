@@ -17,6 +17,9 @@ private final ISqlParser sqlParser;
 private boolean stopApplication = false;
 
 public Controller(Connection connection) {
+	if( connection == null ) {
+		throw new IllegalArgumentException("Connection cannot be null");
+	}
 	this.conn = connection;
 	sqlParser = new SqlParser();
 }
@@ -64,9 +67,7 @@ public void handleCommand(ICommand command) {
 		}
 		return;
 	}
-	
 	throw new IllegalStateException("This can never happen!!");
-	
 }
 
 private ResultSet doSql(String sqlQquery) throws SQLException {
