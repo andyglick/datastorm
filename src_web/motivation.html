@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>Motivating the Data Storm, open source database browser for testing</title>
+%metaHeader
+</head>
+%bodyStart
+<h1>Motivating Data Storm</h1>
+The primary reason for creating Data Storm is to make test driven development (TDD) easier, when test involve databases. An often used
+technique is after executing a test case, to roll-back the data base. Frameworks such as <a href="http://www.springsource.org">Spring</a> 
+natively support this strategy. The roll-back happens irregardless of an error or succesful execution of the test case.
+<p>
+<b>The biggest draw back of this testing approach is that should a test case fail it can be very difficult to resolve the problem as you 
+cannot see the data involved with the executing code</b>. Such a situation is depicted below.
+<p>
+<blockquote>
+<img src="img/junit_error.png" alt="a common error situation in junit">
+</blockquote>
+</p>
+Did the test fail because no rows were inserted, or is the <tt>load()</tt> flawed? Or maybe its the constraints on the <tt>load()</tt> 
+that prevents it from finding the order (maybe only non-closed orders are found, or orders after year 2000,...). 
+Resolving such simple problems can be very tedious indeed due to the lack of access to the underlying data.
+
+<ul>
+<li>Since the transaction is automatically rolled back at the end of the test an ordinary browser cannot inspect the data.</li>
+<li>Since during the execution of a test, all database inserts, deletes and updates happens in an isolated transaction, 
+ an ordinary database browser cannot inspect the data available to the test method.</li>
+<li>Temporarily turning off the automatic roll-back after testing, can easily invalidate your existing reference data in the data base, which must be
+restored at some point.</li>
+</ul>
+
+<h2>Solution</h2>
+Data Storm was invented to put the fun back into xUnit testing (at least for tests involving a database :-). It is simply a database viewer,
+ that uses the same transaction as your tests, hence it has access to display or even modify your data! Launching requires the following code
+ <p>
+ <pre>
+ new DataStorm().show(connection);
+ </pre>
+ </p>
+ 
+Which when executed presents you with a window similar to 
+ 
+<p>
+<blockquote>
+<img src="img/datastorm_window.png" alt="data storm window">
+</blockquote>
+</p>
+
+Data Storm clearly shows us that data was in fact inserted, so attention must be targeted the <tt>load()</tt>... When Data Storm window is 
+opened, one can fire any number of queries at the data base. See also <a href="using_datastorm.html">using data storm</a> for more information. 
+<p>
+Have fun!
+<p>
+
+%adds
+
+</tr>
+</table>
+%adds
+%adds
+
+%bodyEnd

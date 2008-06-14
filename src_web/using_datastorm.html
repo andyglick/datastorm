@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>Using Data Storm, the open source database browser for testing</title>
+%metaHeader
+</head>
+%bodyStart
+<p>
+<h1>Using Data Storm</h1>
+
+In order to use Data Storm, you need to add <tt>datastorm.jar</tt> and <tt>SWT.jar</tt> to your class path.
+<p>
+When you then have a test case that is failing, then all you need to do is insert the following code to open a data storm window to inspect
+your database.
+
+<pre class="prettyprint">
+class FooTest {
+    public void testSomething() {
+        <b>new DataStorm().show(conn);</b>
+    }
+}
+</pre>
+
+Where <tt>conn</tt> is either a <tt>import java.sql.Connection</tt> or a <tt>DataSource</tt>. This will open an empty window. 
+<p>
+You probably become tired of firing the same SQL each time, and you may forget from test to test what SQL is nice to use. Hence, you can
+pre-populate the Data Storm window with SQL which is automatically executed upon opening the window. To do so, you use the overloaded method
+
+
+
+<pre class="prettyprint">
+new DataStorm().show(conn, "SELECT * FROM foo, bar WHERE foo.id = bar.foo_id");
+</pre>
+
+For more details see the Javadoc at <a href="javadoc/org/datastorm/DataStorm.html">Javadoc</a>
+
+
+<p>
+<br>
+<br>
+%adds
+<p>
+
+</tr>
+</table>
+%adds
+%adds
+
+%bodyEnd
