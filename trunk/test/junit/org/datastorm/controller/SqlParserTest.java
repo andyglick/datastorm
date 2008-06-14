@@ -6,6 +6,12 @@ public class SqlParserTest extends TestCase {
 final String selectQry1 = "SELECT * FROM A";
 final String selectQry2 = "SELECT * FROM B";
 
+public void test_empty_input() {
+	ISqlParser parser = new SqlParser();
+	assertEquals(0, parser.splitTextIntoSqlQueries("").length);
+	assertEquals(0, parser.splitTextIntoSqlQueries(";").length);
+}
+
 public void test_split_valid_sql_query_without_semicolon() {
 	ISqlParser parser = new SqlParser();
 	String[] result = parser.splitTextIntoSqlQueries(selectQry1);
