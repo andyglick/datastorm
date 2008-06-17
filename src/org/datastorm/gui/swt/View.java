@@ -150,7 +150,7 @@ public void resetQueryResultTable() {
 	
 }
 
-public void drawResultSet(ResultSet rs) throws SQLException {
+public void drawResultSet(ResultSet rs, int maxDisplay) throws SQLException {
 	clearTable();
 	
 	// header
@@ -161,7 +161,7 @@ public void drawResultSet(ResultSet rs) throws SQLException {
 	}
 	
 	// cells
-	for( int row = 1; rs.next(); row++ ) {
+	for( int rows = 0; rs.next() && rows < maxDisplay; rows++ ) {
 		TableItem item = new TableItem(databaseCells, SWT.NONE);
 		for( int col = 0; col < metaData.getColumnCount(); col++ ) {
 			String txt = rs.getString(col + 1);
@@ -183,6 +183,7 @@ public void drawResultSet(ResultSet rs) throws SQLException {
 		}
 	}
 	databaseCells.layout();
+	
 }
 
 private void clearTable() {
@@ -218,7 +219,7 @@ public Shell buildScreen() {
 	return mainWindow;
 }
 
-public void DialogOK(String title, String message) {
+public void dialogOK(String title, String message) {
 	Shell shell = new Shell(display);
 	MessageBox dialog = new MessageBox(shell, SWT.ICON_ERROR | SWT.OK);
 	dialog.setText(title);

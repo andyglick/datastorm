@@ -28,9 +28,10 @@ public void stopApplication() {
 	stopApplication = true;
 }
 
-public void startUp(ICommand[] commands) throws SQLException {
+public void startUp(String sql) throws SQLException {
 	final Shell mainWindow = view.buildScreen();
-	handleCommand(commands);
+	handleCommand(new SetEditorTextCommand(sql));
+	parseAndDisplay(sql);
 	
 	while( !mainWindow.isDisposed() ) {
 		if( !view.getDisplay().readAndDispatch() ) {
@@ -58,16 +59,24 @@ public void handleCommand(ICommand command) {
 	if( command.getClass() == ShowQueryCommand.class ) {
 		try {
 			ResultSet rs = doSql(((ShowQueryCommand) command).sql);
-			view.drawResultSet(rs);
+			view.drawResultSet(rs, Prefs.MAX_RESULTSET_SIZE);
+			
+			if( rs.getRow() > Prefs.MAX_RESULTSET_SIZE ) {
+				view.dialogOK("Limited result!", "Result is restricted to " + Prefs.MAX_RESULTSET_SIZE
+					+ " rows!\nThe idea of Data Storm was to let you inspect test data..\n"
+					+ "contact me if you need this behaviour to be configurable...");
+			}
 			rs.close();
 		}
 		catch(SQLException e) {
 			// handle exceptions such that if other commands needs be run they will
-			view.DialogOK("SQLException!", e.getMessage() + "\nSQL state: " + e.getSQLState());
+			view.dialogOK("SQLException!", e.getMessage() + "\nSQL state: " + e.getSQLState());
 		}
+		
 		return;
 	}
-	throw new IllegalStateException("This can never happen!!");
+	
+	throw new IllegalStateException("This can never happen! command did not match any handlers.");
 }
 
 private ResultSet doSql(String sqlQquery) throws SQLException {

@@ -8,7 +8,7 @@ import org.datastorm.gui.swt.View;
 public interface IController {
 void setView(View view);
 
-void startUp(ICommand[] commands) throws SQLException;
+void startUp(String sql) throws SQLException;
 
 void parseAndDisplay(String sqlQueries) throws SQLException;
 

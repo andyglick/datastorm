@@ -7,9 +7,6 @@ import javax.sql.DataSource;
 
 import org.datastorm.controller.Controller;
 import org.datastorm.controller.IController;
-import org.datastorm.controller.command.ICommand;
-import org.datastorm.controller.command.SetEditorTextCommand;
-import org.datastorm.controller.command.ShowQueryCommand;
 import org.datastorm.gui.swt.View;
 
 /**
@@ -55,7 +52,7 @@ public void show(Connection connection, String sql) {
 		IController controller = new Controller(connection);
 		View view = new View(controller);
 		controller.setView(view);
-		controller.startUp(new ICommand[] { new SetEditorTextCommand(sql), new ShowQueryCommand(sql) });
+		controller.startUp(sql);
 	}
 	catch(SQLException e) {
 		e.printStackTrace();
