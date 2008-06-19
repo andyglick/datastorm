@@ -13,7 +13,9 @@ When you then have a test case that is failing, then all you need to do is inser
 your database.
 
 <pre class="prettyprint">
-class FooTest {
+import org.datastorm.DataStorm;
+
+class FooTest extends TestCase {
     public void testSomething() {
         <b>new DataStorm().show(conn);</b>
     }
@@ -31,9 +33,54 @@ pre-populate the Data Storm window with SQL which is automatically executed upon
 new DataStorm().show(conn, "SELECT * FROM foo, bar WHERE foo.id = bar.foo_id");
 </pre>
 
+Since you are inside your normal java test environment, you can easily embed id's and other contextual information from your test into 
+your queries. e.g.
+
+
+<pre class="prettyprint">
+class ATest {
+    public void test_something() {
+        <b>long id = </b>aService.save( new Person() );
+        new DataStorm().show(conn, "SELECT * FROM person p WHERE p.id = " + <b>id</b> );
+        ...
+    }
+}
+</pre>
+
+<h2>IDE fine-tuning</h2>
+Remember your IDE can be set up to easily paste queries into your java code (when pasting inside a string.
+ 
+<ul>
+<li>In Eclipse: Window -> preferences... -> Java -> Editor -> Typing -> <b>escape text when pasting into a string literal</b></li>
+</ul>
+
+
+<h2>Testing in Spring</h2>
+
+If your tests subclass <tt>AbstractTransactionalDataSourceSpringContextTests</tt>, note that the following will probably give you a connection,
+but not a connection enabling you to see changes to your database made within the test
+
+<pre class="prettyprint">
+class PromblemApproachTest extends AbstractTransactionalDataSourceSpringContextTests {
+    public void test_dont_get_the_data() {
+        new DataStorm().show(super.getJdbcTemplate().getDataSource(), "SELECT ..");
+        new DataStorm().show(super.jdbcTemplate.getDataSource(), "SELECT ..");
+</pre>
+
+Instead, what you will have to do is create an extra dao interface and an implementation and wire it to your test. Your dao could look like
+
+<pre class="prettyprint">
+class ConnectionDao extends SqlMapClientDaoSupport implements IConnectionDao {
+    public DataSource getDataSource() {
+        return getSqlMapClientTemplate().getDataSource();
+    }
+} 
+</pre>
+The above code shows such a dao when compining Spring and iBatis
+<p>
+As the feature set of Data Storm grows, so will this page...
+<p>
 For more details see the Javadoc at <a href="javadoc/org/datastorm/DataStorm.html">Javadoc</a>
-
-
 <p>
 <br>
 <br>
