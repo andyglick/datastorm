@@ -13,7 +13,6 @@ that otherwise may not be available to you.
 The primary reason for creating Data Storm is to make test driven development (TDD) easier, when test involve databases. An often used
 technique is after executing a test case, to roll-back the data base. Frameworks such as <a href="http://www.springsource.org">Spring</a> 
 natively support this strategy. The roll-back happens irregardless of an error or succesful execution of the test case.
-<p>
 <b>The biggest draw back of this testing approach is that should a test case fail it can be very difficult to resolve the problem as you 
 cannot see the data involved with the executing code</b>. Such a situation is depicted below.
 <p>
@@ -26,23 +25,35 @@ that prevents it from finding the order (maybe only non-closed orders are found,
 Resolving such simple problems can be very tedious indeed due to the lack of access to the underlying data.
 
 <ul>
-<li>Since the transaction is automatically rolled back at the end of the test an ordinary browser cannot inspect the data.</li>
+<li>Since the transaction is automatically rolled back at the end of the test an ordinary database browser cannot inspect the data.</li>
 <li>Since during the execution of a test, all database inserts, deletes and updates happens in an isolated transaction, 
  an ordinary database browser cannot inspect the data available to the test method.</li>
-<li>Temporarily turning off the automatic roll-back after testing, can easily invalidate your existing reference data in the data base, which must be
-restored at some point.</li>
+<li>Temporarily turning off the automatic roll-back after testing, can easily invalidate your existing reference data in the data base, hence 
+requiring subsequent restoration (which may easily be quite time consuming).</li>
 </ul>
 
 <h2>Solution</h2>
 Data Storm was invented to put the fun back into xUnit testing (at least for tests involving a database :-). It is simply a database viewer,
- that uses the same transaction as your tests, hence it has access to display or even modify your data! Launching requires the following code
- <p>
- <pre>
- new DataStorm().show(connection);
- </pre>
- </p>
+ that uses the same transaction as your tests, hence it has access to display or even modify your data! Launching requires the following code 
+ to be inserted just before the <tt>assertXX()</tt> that fails. The variable <tt>connection</tt> refers to your database connection established 
+ within your test code.
  
-Which when executed presents you with a window similar to 
+<pre class="prettyprint">
+new DataStorm().show( <i>connection</i> );
+</pre>
+ 
+Which when executed presents you with a window similar to the below where you can type in your queries. But even better, since you are launching
+Data Storm from within your Java tests, you can easily pass in context information to the query window, e.g. you can pass along id's such as
+
+<pre class="prettyprint">
+public void test_order_save() {
+    Order orderToBeFound = new Order(SOME_ID, SOME_NAME1);
+    orderToBeFound.save();
+    new DataStorm().show( connection, "SELECT * FROM orders o <u>WHERE o.id = " + SOME_ID</u> );
+    assertNotNull(orderToBeFound.load(SOME_ID));
+}
+</pre>
+ 
  
 <p>
 <blockquote>
@@ -51,7 +62,9 @@ Which when executed presents you with a window similar to
 </p>
 
 Data Storm clearly shows us that data was in fact inserted, so attention must be targeted the <tt>load()</tt>... When Data Storm window is 
-opened, one can fire any number of queries at the data base. See also <a href="using_datastorm.html">using data storm</a> for more information. 
+opened, one can fire any number of queries at the data base. 
+<p>
+See also <a href="using_datastorm.html">using data storm</a> for more information. 
 <p>
 Have fun!
 <p>
